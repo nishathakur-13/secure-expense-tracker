@@ -4,6 +4,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
 urlpatterns = [
+    path("<int:expense_id>/edit/", views.expense_edit, name="expense_edit"),
     path("add/", views.expense_add, name="expense_add"),
     path("", views.expense_list, name="expense_list"),
     path("register/", views.register, name="register"),

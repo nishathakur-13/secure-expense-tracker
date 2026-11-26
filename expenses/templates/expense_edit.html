@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Expense</title>
+</head>
+<body>
+    <h1>Edit Expense</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Description: <input type="text" name="description" value="{{ expense.description }}" required></p>
+        <p>Amount: <input type="number" name="amount" step="0.01" value="{{ expense.amount }}" required></p>
+        <p>Category: <input type="text" name="category" value="{{ expense.category }}" required></p>
+        <p>Date: <input type="date" name="date" value="{{ expense.date|date:'Y-m-d' }}" required></p>
+        <button type="submit">Save</button>
+    </form>
+    <p><a href="/">Back to list</a></p>
+</body>
+</html>

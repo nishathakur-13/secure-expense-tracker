@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
@@ -34,3 +34,16 @@ def expense_add(request):
         )
         return redirect("expense_list")
     return render(request, "expense_form.html")
+
+
+@login_required
+def expense_edit(request, expense_id):
+    expense = get_object_or_404(Expense, id=expense_id, owner=request.user)
+    if request.method == "POST":
+        expense.description = request.POST["description"]
+        expense.amount = request.POST["amount"]
+        expense.category = request.POST["category"]
+        expense.date = request.POST["date"]
+        expense.save()
+        return redirect("expense_list")
+    return render(request, "expense_edit.html", {"expense": expense})
