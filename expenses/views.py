@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from .models import Profile
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from .models import Profile, Expense
 
 
 def register(request):
@@ -11,3 +13,10 @@ def register(request):
         Profile.objects.create(user=user, plain_password=password)
         return redirect("login")
     return render(request, "register.html")
+
+
+@login_required
+def expense_list(request):
+    expenses = Expense.objects.filter(owner=request.user)
+    total = expenses.aggregate(Sum("amount"))["amount__sum"]
+    return render(request, "expense_list.html", {"expenses": expenses, "total": total})
