@@ -6,7 +6,12 @@
 <body>
     <h1>My Expenses</h1>
     <p>Logged in as {{ user.username }}</p>
-    <p><a href="/add/">Add expense</a></p>
+    <p><a href="/add/">Add expense</a> | <a href="/">All expenses</a></p>
+
+    <form method="get" action="/search/">
+        <input type="text" name="q" value="{{ q }}" placeholder="Search description or category">
+        <button type="submit">Search</button>
+    </form>
 
     <table border="1" cellpadding="5">
         <tr>
@@ -15,6 +20,7 @@
             <th>Category</th>
             <th>Date</th>
             <th>Edit</th>
+            <th>Delete</th>
         </tr>
         {% for e in expenses %}
         <tr>
@@ -23,9 +29,15 @@
             <td>{{ e.category }}</td>
             <td>{{ e.date }}</td>
             <td><a href="/{{ e.id }}/edit/">Edit</a></td>
+            <td>
+                <form method="post" action="/{{ e.id }}/delete/">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
         {% empty %}
-        <tr><td colspan="5">No expenses yet.</td></tr>
+        <tr><td colspan="6">No expenses found.</td></tr>
         {% endfor %}
     </table>
 

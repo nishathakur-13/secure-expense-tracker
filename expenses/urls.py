@@ -10,4 +10,6 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("login/", LoginView.as_view(template_name="registration/login.html"), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
+    path("search/", views.expense_search, name="expense_search"),
+    path("<int:expense_id>/delete/", views.expense_delete, name="expense_delete"),
 ]
